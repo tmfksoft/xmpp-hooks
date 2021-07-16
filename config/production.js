@@ -1,5 +1,5 @@
 module.exports = {
-	debug: false,
+	debug: process.env.NODE_ENV === "development",
 	xmpp: {
 		service: process.env.XMPP_SERVICE,
 		username: process.env.XMPP_USERNAME,

@@ -6,8 +6,6 @@ import Boom from '@hapi/boom';
 
 const debug = require('@xmpp/debug');
 
-console.log(config);
-
 const xmpp = client({
 	service: config.get('xmpp.service'),
 	username: config.get('xmpp.username'),
@@ -15,6 +13,7 @@ const xmpp = client({
 });
 
 if (config.get('debug')) {
+	console.log(config);
 	debug(xmpp, true);
 }
 
@@ -40,10 +39,7 @@ xmpp.on("online", async (address) => {
 
 xmpp.start().catch(console.error);
 
-
-const HTTP = new Hapi.Server({
-	port: "8080",
-});
+const HTTP = new Hapi.Server(config.get('http'));
 
 HTTP.route({
 	method: "POST",
