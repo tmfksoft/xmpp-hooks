@@ -6,6 +6,8 @@ import Boom from '@hapi/boom';
 
 const debug = require('@xmpp/debug');
 
+console.log(config);
+
 const xmpp = client({
 	service: config.get('xmpp.service'),
 	username: config.get('xmpp.username'),
