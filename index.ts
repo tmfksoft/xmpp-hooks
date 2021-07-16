@@ -53,10 +53,10 @@ HTTP.route({
 		}
 	},
 	handler: async (req, h) => {
-		if (!req.headers['Authorization']) {
+		if (!req.headers['authorization']) {
 			return Boom.unauthorized("Missing API Key!");
 		}
-		if (req.headers['Authorization'] !== config.get('apiKey')) {
+		if (req.headers['authorization'] !== config.get('apiKey')) {
 			return Boom.unauthorized("Invalid API Key!");
 		}
 
