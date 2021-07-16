@@ -61,20 +61,23 @@ HTTP.route({
 		}
 
 		const { to, message } = req.payload as { to: string, message: string };
-
-		let address = to;
-		if (address.indexOf("@") < 0) {
-			address = `${address}@xmpp.burnett-taylor.me`;
-		}
+		const recipients = to.split(";");
 		
-		const xmppMessage = xml(
-			"message",
-			{ type: "chat", to },
-			xml("body", {}, message),
-			xml("nick", { xmlns: "http://jabber.org/protocol/nick" }, "dave"),
-		);
+		
 		try {
-			await xmpp.send(xmppMessage);
+			for (let recipient of recipients) {
+				let address = recipient;
+				if (address.indexOf("@") < 0) {
+					address = `${address}@${config.get('xmpp.domain')}`;
+				}
+				const xmppMessage = xml(
+					"message",
+					{ type: "chat", to: address },
+					xml("body", {}, message),
+					xml("nick", { xmlns: "http://jabber.org/protocol/nick" }, "dave"),
+				);
+				await xmpp.send(xmppMessage);
+			}
 		} catch (e) {
 			return e;
 		}
